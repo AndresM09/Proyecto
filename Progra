@@ -1,0 +1,321 @@
+#include<iostream>
+#include<fstream>
+#include<stdlib.h>
+
+using namespace std;
+
+struct  Datos_fundamentales{
+	
+char Nombre[10];  
+char nickname[10];  
+char Apellido[7];
+float peso;
+float altura;
+int  Edad;
+char Sexo[2];
+int  Numero_del_documento; 
+int  Numero_de_celular_telefono;
+char Departamento[15];
+char Provincia[15]; 
+char Distrito[15];
+int  codigo;
+};
+
+struct Resp_form{
+	int rpt1;
+	int rpt2;
+	int rpt3;
+};
+
+void apertura(Datos_fundamentales dat_per);
+void MenuGeneral();
+int menuP();
+
+int menuCrear();
+void crearDatos(FILE *datosPers);
+void ingresarDatos(FILE *datosPers,Datos_fundamentales dat_per );
+void mostrarDatos(FILE *datosPers,Datos_fundamentales dat_per);
+void mostrar_registroDatos(FILE *datosPers,Datos_fundamentales dat_per);
+
+int  menuFormulario();
+void crearFormulario(FILE *Forms);
+void ingresarFormulario(FILE *Forms,Resp_form form);
+void mostrarFormulario(FILE *Forms,Resp_form form);
+
+void Centro();
+void salir();
+
+int main(){ ////// PRINCIPALLLL
+Datos_fundamentales dat_per;
+Resp_form form;
+FILE *datosPers;
+FILE *Forms;
+
+apertura(dat_per);
+MenuGeneral();
+
+return 0 ;
+}
+
+void apertura(Datos_fundamentales dat_per){
+	cout<<"<<---------   BIENVENIDO   --------->>\n"<<endl;
+	cout<<"Hola, mi nombre es MediBot. Es un gusto tenerte por aqui y conocerte."<<endl;
+	cout<<"Antes de iniciar, introduce un nickname y asi estare listo para asistirte: ";
+	gets(dat_per.nickname);
+	system("cls");
+}
+
+void MenuGeneral(){
+	FILE *datosPers;
+	FILE *Forms;
+	Datos_fundamentales dat_per;
+	Resp_form form;
+	int opc1,opc2,opc3,opc4,opc5;
+	char rpta1,rpta2,rpta3,rpta4,rpta5;
+    do{
+	system("cls");
+	opc1=menuP();
+	switch(opc1){
+		case 1:
+		do{
+		system("cls");
+		opc2=menuCrear();
+		switch(opc2){
+			case 1: crearDatos(datosPers); break;
+			case 2: ingresarDatos(datosPers,dat_per); break;
+			case 3: mostrarDatos(datosPers,dat_per); break;
+			case 4: salir(); break;
+		}
+		if (opc2!=4){
+			cout<<"Indicame si deseas continuar (S/N) ==> ";
+			cin>>rpta2;
+		}
+		else
+			rpta2='N';
+		}while (rpta2=='S'||rpta2=='s');
+		break;
+		case 2:
+		do{
+		system("cls");
+		opc3=menuFormulario();
+		switch(opc3){
+			case 1: crearFormulario(Forms); break;
+			case 2: ingresarFormulario(Forms,form); break;
+			case 3: mostrarFormulario(Forms,form); break;
+			case 4: salir(); break;
+		}
+		if (opc3!=4){
+			cout<<"Indicame si deseas continuar (S/N) ==> ";
+			cin>>rpta3;
+		}
+		else
+			rpta3='N';
+		}while (rpta3=='S'||rpta3=='s');
+		break;
+		case 3:
+		system("cls");
+		Centro();
+		break;
+		case 4:
+		system("cls");
+		salir(); 
+		break;
+		}
+	if (opc1!=4){
+		cout<<"Indicame si deseas continuar (S/N) ==> ";
+		cin>>rpta1;
+	}
+	else
+		rpta1='N';
+	}while (rpta1=='S'||rpta1=='s');
+	system("PAUSE");
+}
+    
+int menuP(){  //MENU PRINCIPAL
+int opcionP;
+cout<<"-----------  MediBot  -----------"<<endl<<endl;
+cout<<"Hola de nuevo, bienvenido a mi Menu Principal. Te presento mis opciones.  \n\n";
+cout<<"1. Datos del paciente: \n";
+cout<<"2. Formulario de malestares y sintomas: \n";
+cout<<"3. Centros de salud cercanos: \n";
+cout<<"4. Salir: \n";
+cout<<"\nDigita una opcion ===> ";
+cin>>opcionP;
+return opcionP;
+}
+
+void menuConsulta(){
+}
+
+int menuCrear(){
+int opcionC;
+cout<<"----------- Menu de datos para pacientes -----------"<<endl;
+cout<<"1. Crear archivo: \n";
+cout<<"2. Ingresar datos: \n";
+cout<<"3. Mostrar datos: \n";
+cout<<"4. Editar datos: \n";
+cout<<"5. Salir: \n";
+cout<<"Digita una opcion ===> ";
+cin>>opcionC;
+return opcionC;
+}
+
+void crearDatos(FILE *datosPers){	
+datosPers=fopen("c:Datos Personales.txt","w");
+	if (datosPers==NULL){	
+		cout<<"No se pudo crear el archivo Datos Personales \n";
+	}
+	else {
+		cout<<"Creacion exitosa \n";
+	fclose(datosPers);
+	}
+}
+
+void ingresarDatos(FILE *datosPers,Datos_fundamentales dat_per){
+	
+	cout<<"*******      Ingreso de Nuevo Paciente     ******** \n";
+	cout<<"Digite los datos personales del paciente \n";
+	fflush(stdin);
+	cout<<"Nombre: "; gets(dat_per.Nombre); 
+	cout<<"Apellido : "; gets(dat_per.Apellido);
+	cout<<"Codigo del Paciente: "; cin>>dat_per.codigo;
+	cout<<"Edad: "; cin>>dat_per.Edad;
+	cout<<"Peso : "; cin>>dat_per.peso;
+	cout<<"Sexo: "; gets(dat_per.Sexo);
+	cout<<"Numero de telefono: "; cin>>dat_per.Numero_de_celular_telefono;
+	cout<<"Numero de documento : "; cin>>dat_per.Numero_del_documento;
+	cout<<"Provincia: "; gets(dat_per.Provincia);
+	cout<<"Distrito: "; gets(dat_per.Distrito);
+	cout<<"Departamento: "; gets(dat_per.Departamento);
+	
+datosPers=fopen("c:Datos Fundamentales.txt","a");
+if (datosPers!=NULL){
+fwrite(&dat_per,sizeof(dat_per),1,datosPers);
+if (!ferror(datosPers))
+fclose(datosPers);
+else
+cout<<"Error de escritura en archivo Datos Fundamentales \n";
+}
+else{
+cout<<"No se puede abrir el archivo Datos Fundamentales \n";
+}
+}
+
+void mostrarDatos(FILE *datosPers,Datos_fundamentales dat_per){	
+
+cout<<"-----Mostrar los datos personales del paciente----- \n" ;
+datosPers=fopen("c:Datos Personales.txt","r");
+	if (datosPers==NULL){
+cout<<"No se puede abrir el archivo Datos Personales \n";
+system("pause");
+	}
+cout<<"--DATOS DEL PACIENTE-- \n";
+while(!feof(datosPers)){
+fread(&dat_per,sizeof(dat_per),1,datosPers);
+	if (ferror(datosPers)){
+cout<<"Error de Lectura en archivo Datos del Paciente \n";
+system("pause");
+	}
+if (!feof(datosPers)) {
+		fflush(stdin);
+	cout<<"Nombre: "; cout<<dat_per.Nombre<<endl;
+	cout<<"Apellido : "; cout<<dat_per.Apellido<<endl;
+	cout<<"Edad: "; cout<<dat_per.Edad<<endl;
+	cout<<"Peso : "; cout<<dat_per.peso<<endl;
+	cout<<"Sexo: "; cout<<dat_per.Sexo<<endl;
+	cout<<"Numero de documento : "; cout<<dat_per.Numero_del_documento<<endl;
+	cout<<"Numero de telefono: "; cout<<dat_per.Numero_de_celular_telefono;
+	cout<<"Provincia: "; cout<<dat_per.Provincia<<endl;
+	cout<<"Distrito: "; cout<<dat_per.Distrito<<endl;
+	cout<<"Departamento: "; cout<<dat_per.Departamento<<endl;
+	cout<<"==================================================\n";
+}
+}
+fclose(datosPers);
+}
+
+int menuFormulario(){
+int opcionD;
+cout<<"--------- Bienvenido al Formulario de malestares y sintomas ---------"<<endl;
+cout<<"    Menu  \n";
+cout<<"1. Crear Formulario \n";
+cout<<"2. Llenar Formulario \n";
+cout<<"3. Mostrar respuestas \n";
+cout<<"4. Modificar respuesta \n";
+cout<<"5. Salir \n";
+cout<<"Digite una opcion ===> ";
+cin>>opcionD;
+return opcionD;
+}
+
+void crearFormulario(FILE *Forms){
+Forms=fopen("c:Formulario.txt","w");
+	if (Forms==NULL){	
+		cout<<"No se pudo crear el archivo Formulario \n";
+	}
+	else {
+		cout<<"Creacion exitosa \n";
+	fclose(Forms);
+	}	
+}
+
+void ingresarFormulario(FILE *Forms ,Resp_form form){
+	cout<<"****** FORMULARIO DE SINTOMAS ******* \n";
+	fflush(stdin);
+	cout<<"Has presentado dolor de estomago? "; cin>>form.rpt1;
+	cout<<"Sientes nausesas o mareos? "; cin>>form.rpt2;
+	cout<<"Crees tener fiebre? "; cin>>form.rpt3;
+Forms=fopen("c:Formulario.txt","a");
+if (Forms!=NULL){
+fwrite(&form,sizeof(form),1,Forms);
+if (!ferror(Forms))
+fclose(Forms);
+else
+cout<<"Error de escritura en archivo Formulario \n";
+}
+else{
+cout<<"No se puede abrir el archivo Formulario \n";
+}
+}	
+
+void mostrarFormulario(FILE *Forms ,Resp_form form){
+	
+	cout<<"----- Mostrar Formulario ----- \n" ;
+Forms=fopen("c:Formulario.txt","r");
+	if (Forms==NULL){
+cout<<"No se puede abrir el archivo Formulario\n";
+system("pause");
+	}
+cout<<"-- Respuestas -- \n";
+while(!feof(Forms)){
+fread(&form,sizeof(form),1,Forms);
+	if (ferror(Forms)){
+cout<<"Error de Lectura en archivo Formulario \n";
+system("pause");
+	}
+if (!feof(Forms)){
+	cout<<"Has presentado dolor de estomago? "; cout<<form.rpt1<<endl;
+	cout<<"Sientes nausesas o mareos? "; cout<<form.rpt2<<endl;
+	cout<<"Crees tener fiebre? "; cout<<form.rpt3<<endl;
+	cout<<"==================================================\n";
+}
+}
+fclose(Forms);	
+}
+
+void Centro(){
+int opcionE, zona;
+	cout<<"-------------- Centros de Salud cercanos a ti --------------"<<endl;
+    cout<<"\n1. Lima Norte (Ancon, Carabayllo, Comas, Independencia, Los Olivos, Puente Piedra, \n\tSan Martin de Porres, Santa Rosa)";
+    cout<<"\n2. Lima Sur (Chorrillos, Lurin, Pachacamac, Pucusana, Punta Hermosa, Punta Negra, \n\tSan Bartolo, San Juan de Miraflores, Santa Maria del Mar, Villa El Salvador, Villa Maria del Triunfo)";
+    cout<<"\n3. Lima Este (Ate-Vitarte, Chaclacayo, Cieneguilla, El Agustino, Lurigancho-Chosica, \n\tSan Juan de Lurigancho, Santa Anita)";
+    cout<<"\n4. Lima Oeste (Barranco, Jesus Maria, La Molina, Lince, Magdalena del Mar, Miraflores, \n\tPueblo Libre, San Borja, San Isidro, San Miguel, Santiago de Surco, Surquillo)";
+    cout<<"\n5. Lima Centro (Breña, La Victoria, Cercado de Lima, Rimac, San Luis)";
+    cout<<"\n6. Callao (Bellavista, Callao, Carmen de la Legua, La Perla, La Punta, Ventanilla, \n\tMi Peru)\n"<<endl;	
+    cout<<"Por favor, indicame la zona de Lima Metropolitana en la que vives si deseas agendar una cita: ";
+	cin>>zona;
+}
+	
+void salir(){
+	cout<<"Gracias por contar conmigo. Ten un buen dia y recuerda cuidar de tu salud. :D\n\n";
+}
